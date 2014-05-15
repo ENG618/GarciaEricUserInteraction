@@ -7,16 +7,29 @@ package com.GarciaEric.userinteraction.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends Activity {
 
+    private static final String LOGTAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Log message
+        Log.d(LOGTAG, "onCreate entered");
+
+
+    }
+
+    //
+    public void getRecipe(String searchTerm){
+        // Log message
+        Log.d(LOGTAG, "getRecipe entered");
     }
 
 

@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    // App stings
     <string name="app_name">User Interaction</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    // Layout
+    <string name="header">Recipe</string>
+    <string name="search_hint">Recipe Search</string>
+    <string name="course">Course</string>
+    <string name="search_btn">Search</string>
+    <string name="cancel_btn">Cancel</string>
+
+    // Spinner Array
+    <string-array name="courses_array">
+        <item>Breakfast and Brunch</item>
+        <item>Breads</item>
+        <item>Lunch and Snacks</item>
+        <item>Deserts</item>
+        <item>Main Dishes</item>
+        <item>Beverages</item>
+        <item>Side Dishes</item>
+        <item>Appetizers</item>
+        <item>Condiments and Sauces</item>
+        <item>Salads</item>
+        <item>Soups</item>
+        <item>Cocktails</item>
+    </string-array>
 
 </resources>
