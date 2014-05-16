@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -42,10 +43,11 @@ public class MainActivity extends Activity {
         // Obtain fields
         searchField = (EditText)findViewById(R.id.etSearch);
 
-        // Set up spinner
+        // Set up spinner & listView
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
+        setListView();
 
 
     }
@@ -63,14 +65,14 @@ public class MainActivity extends Activity {
         // Specify layout
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Apply adapter to spinner
+        // Set adapter to spinner
         courseSpinner.setAdapter(adapter);
 
         courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Toast item selected
-                Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_SHORT).show();
 
                 // Temp log
                 Log.d(LOGTAG, "An item was selected from the spinner");
@@ -83,8 +85,35 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void setListView() {
+        // Log message
+        Log.d(LOGTAG, "setListView entered");
+
+        // Obtain ListView
+        ListView searchResults = (ListView) findViewById(R.id.searchResultsLV);
+
+        // List adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, coursesArray);
+
+        // Specify layout
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+
+        // Set adapter to listView
+        searchResults.setAdapter(adapter);
+
+        searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO finish on click method
+                Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
     // Get recipes method
-    private void getRecipe(String searchTerm){
+    public void getRecipe(String searchTerm){
         // Log message
         Log.d(LOGTAG, "getRecipe entered");
         Log.d(LOGTAG, "Searching for: " + searchTerm);
