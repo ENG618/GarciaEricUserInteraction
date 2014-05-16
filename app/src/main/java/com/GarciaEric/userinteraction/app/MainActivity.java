@@ -14,16 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
+    // Class fields
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
+
+    // User input Fields
+    private EditText searchField;
+
 
 
     @Override
@@ -34,13 +39,14 @@ public class MainActivity extends Activity {
         // Log message
         Log.d(LOGTAG, "onCreate entered");
 
+        // Obtain fields
+        searchField = (EditText)findViewById(R.id.etSearch);
+
         // Set up spinner
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
 
-        // Create button listeners
-        //setButtons();
 
     }
 
@@ -77,47 +83,36 @@ public class MainActivity extends Activity {
         });
     }
 
-    // Get recipies method
+    // Get recipes method
     private void getRecipe(String searchTerm){
         // Log message
         Log.d(LOGTAG, "getRecipe entered");
+        Log.d(LOGTAG, "Searching for: " + searchTerm);
     }
 
-    private void setButtons(){
-
-        // Obtain buttons
-        Button btnSearch = (Button) findViewById(R.id.btnSearch);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
-
-        // Event for search
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Log message
-                Log.d(LOGTAG, "Search button pressed");
-            }
-        });
-
-        // Event for cancel
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Log message
-                Log.d(LOGTAG, "Cancel button pressed");
-            }
-        });
-    }
-
-    // Cancel button action
+    // Cancel button method
     public void onCancel(View v){
         // Log message
         Log.d(LOGTAG, "Cancel button clicked");
     }
 
-    // Save button action
+    // Search button action
     public void onSearch(View v){
         // Log message
-        Log.d(LOGTAG, "Save button clicked");
+        Log.d(LOGTAG, "Search button clicked");
+
+        // Local variable
+        String search = searchField.getText().toString();
+
+        // Check search term
+        if (search.matches("")) {
+            // Toast error message
+            Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            getRecipe(searchField.getText().toString());
+        }
+
     }
 
     @Override
