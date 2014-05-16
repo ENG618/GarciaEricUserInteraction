@@ -11,43 +11,61 @@
         android:layout_gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/header"
-        android:id="@+id/tvHeader" />
+        android:id="@+id/tvHeader"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etSearch"
-        android:hint="@string/search_hint"/>
+        android:hint="@string/search_hint"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/course"
-        android:id="@+id/tvCourseLable" />
+        android:id="@+id/tvCourseLable"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/courseSpinner" />
+        android:id="@+id/courseSpinner"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.15">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search_btn"
-            android:id="@+id/btnSearch" />
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:padding="10dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel_btn"
-            android:id="@+id/btnCancel" />
+            android:id="@+id/btnCancel"
+            android:layout_marginRight="40dp"
+            android:onClick="onCancel"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_btn"
+            android:id="@+id/btnSearch"
+            android:layout_marginLeft="40dp"
+            android:onClick="onSearch"/>
+
     </LinearLayout>
 
 </LinearLayout>
