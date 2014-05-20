@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 
 public class Recipe {
+
     // Recipe variables
     public String recipeID;
     public String recipeName;
