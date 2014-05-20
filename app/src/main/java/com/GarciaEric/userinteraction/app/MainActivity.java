@@ -157,9 +157,21 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_settings:
+                Toast.makeText(MainActivity.this, "Setting selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_option1:
+                Toast.makeText(MainActivity.this, "Option 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_option2:
+                Toast.makeText(MainActivity.this, "Option 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_option3:
+                Toast.makeText(MainActivity.this, "Option 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
