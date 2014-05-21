@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by: ENG618-Mac on 5/20/14
+ * Created by: Eric Garcia on 5/20/14
  * Full Sail University
  */
 public class RecipeData {

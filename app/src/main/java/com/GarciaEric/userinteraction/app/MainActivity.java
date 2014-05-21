@@ -7,6 +7,8 @@ package com.GarciaEric.userinteraction.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +21,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
+/**
+ * Created by: Eric Garcia on 5/15/14
+ * Full Sail University
+ */
 public class MainActivity extends Activity {
 
     // Class fields
@@ -49,7 +54,36 @@ public class MainActivity extends Activity {
         setSpinner();
         setListView();
 
+        // Check network connection
+        if (checkNetworkStatus(mContext)){
+            Toast.makeText(mContext, "You have a network connection", Toast.LENGTH_SHORT).show();
+        }
 
+
+    }
+
+    // Check network status
+    public Boolean checkNetworkStatus(Context context){
+        // Log message
+        Log.d(LOGTAG, "checkNetworkStatus entered");
+
+        // Declare connection as false until checked
+        Boolean conn = false;
+
+        // Create connectivity manager
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Obtain status
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        // Check validity
+        if (ni != null) {
+            if (ni.isConnected()) {
+                Log.d(LOGTAG, "Connection type: " + ni.getTypeName());
+                conn = true;
+            }
+        }
+
+
+        return conn;
     }
 
     private void setSpinner() {
@@ -156,8 +190,8 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        switch (id){
+
+        switch (item.getItemId()){
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, "Setting selected", Toast.LENGTH_SHORT).show();
                 return true;

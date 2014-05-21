@@ -3,8 +3,8 @@ package com.GarciaEric.userinteraction.Data;
 import java.util.ArrayList;
 
 /**
- * Created by: ENG618-Mac on 5/20/14
- * Full Sail University
+ * Created by: Eric Garcia on 5/20/14
+ * Full Sail University | MDVBS
  */
 
 public class Recipe {
@@ -25,5 +25,10 @@ public class Recipe {
         this.ingredients = ingredients;
         this.totalTimeInSeconds = totalTimeInSeconds;
         this.recipeURL = recipeURL;
+    }
+
+    @Override
+    public String toString() {
+        return recipeName;
     }
 }

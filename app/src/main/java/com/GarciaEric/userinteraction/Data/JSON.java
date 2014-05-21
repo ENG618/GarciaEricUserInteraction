@@ -22,21 +22,21 @@ public class JSON {
             // Create query JSONObject
             JSONObject queryObject = new JSONObject();
 
-            // Create recipe object in query
-            for (Recipes recipes : Recipes.values()) {
-
-                // Create individual recipe object
-                JSONObject recipeObj = new JSONObject();
-
-
-                recipeObj.put("title", recipes.setTitle);
-                recipeObj.put("serving", recipes.setServingSize);
-                recipeObj.put("cookTime", recipes.setCookTime);
-                recipeObj.put("description", recipes.setDescription);
-
-                queryObject.put(recipes.name().toString(), recipeObj);
-
-            }
+//            // Create recipe object in query
+//            for (Recipes recipes : Recipes.values()) {
+//
+//                // Create individual recipe object
+//                JSONObject recipeObj = new JSONObject();
+//
+//
+//                recipeObj.put("title", recipes.setTitle);
+//                recipeObj.put("serving", recipes.setServingSize);
+//                recipeObj.put("cookTime", recipes.setCookTime);
+//                recipeObj.put("description", recipes.setDescription);
+//
+//                queryObject.put(recipes.name().toString(), recipeObj);
+//
+//            }
 
 
             recipeObject.put("query", queryObject);
