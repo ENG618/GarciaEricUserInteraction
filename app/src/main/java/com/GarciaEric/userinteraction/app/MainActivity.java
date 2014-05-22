@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     private Context mContext;
     private String[] coursesArray;
     private String selectedCourse;
+    public static String recipeURL;
     //public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
 
     // User input Fields
@@ -83,7 +84,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(mContext, "Connected to: " + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                 conn = true;
             } else {
-                Toast.makeText(mContext, "You do not have a network connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Please connect to internet to search", Toast.LENGTH_SHORT).show();
             }
         }
         return conn;
@@ -158,10 +159,12 @@ public class MainActivity extends Activity {
         Log.i(LOGTAG, "getRecipe entered");
         Log.i(LOGTAG, "Searching for: " + searchTerm + " Course: " + course);
 
+        // Format searchTerm for URL
+        String newSearchTerm = searchTerm.replace(" ", "+");
+
         // Construct recipe string
         // Format: http://api.yummly.com/v1/api/recipes?_app_id=app-id&_app_key=app-key&your_search_parameters
-
-        String recipeURL = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=" + searchTerm + "&allowedCourse[]=course^course-" + course;
+        recipeURL = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=" + newSearchTerm + "&allowedCourse[]=course^course-" + course;
 
         return recipeURL;
     }
@@ -188,17 +191,15 @@ public class MainActivity extends Activity {
             Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
         } else { // Sent it to getResponse
             // Check network status
-            checkNetworkStatus(MainActivity.this);
+            if (checkNetworkStatus(MainActivity.this)) {
+                // Get recipe URL
+                String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
+                Log.i(LOGTAG, "URL is: " + recipeURL);
 
-            // TODO: create urlString
-            getData data = new getData();
-            //data.execute(urlString);
-
-            // Get recipe URL
-            String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
-            Log.i(LOGTAG, "URL is: " + recipeURL);
-
-            // Send to
+                //
+                getData data = new getData();
+                data.execute(recipeURL);
+            }
         }
 
     }
@@ -241,7 +242,7 @@ public class MainActivity extends Activity {
             String responseString;
 
             try { // Try URL
-                URL url = new URL(_urlString);
+                URL url = new URL(recipeURL);
                 responseString = getResponse(url);
             } catch (Exception e) { // If error show response string and error
                 responseString = "Something isn't right";
