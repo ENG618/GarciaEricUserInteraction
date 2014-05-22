@@ -61,14 +61,6 @@ public class MainActivity extends Activity {
         setSpinner();
         setListView();
 
-        // Check network connection
-        if (checkNetworkStatus(mContext)){
-            Toast.makeText(mContext, "You have a network connection", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "You do not have a network connection", Toast.LENGTH_SHORT).show();
-        }
-
-
     }
 
     // Check network status
@@ -87,11 +79,12 @@ public class MainActivity extends Activity {
         if (ni != null) {
             if (ni.isConnected()) {
                 Log.d(LOGTAG, "Connection type: " + ni.getTypeName());
+                Toast.makeText(mContext, "Connected to: " + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                 conn = true;
+            } else {
+                Toast.makeText(mContext, "You do not have a network connection", Toast.LENGTH_SHORT).show();
             }
         }
-
-
         return conn;
     }
 
@@ -158,14 +151,16 @@ public class MainActivity extends Activity {
     // Get recipes method
     public void getRecipe(String searchTerm){
         // Log message
-        Log.d(LOGTAG, "getRecipe entered");
-        Log.d(LOGTAG, "Searching for: " + searchTerm);
+        Log.i(LOGTAG, "getRecipe entered");
+        Log.i(LOGTAG, "Searching for: " + searchTerm);
     }
 
     // Cancel button method
     public void onCancel(View v){
         // Log message
         Log.d(LOGTAG, "Cancel button clicked");
+        // Clear search field
+        searchField.setText("");
     }
 
     // Search button action
@@ -181,10 +176,12 @@ public class MainActivity extends Activity {
             // Toast error message
             Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
         } else { // Sent it to getResponse
+            // Check network status
+            checkNetworkStatus(MainActivity.this);
+
             // TODO: create urlString
             getData data = new getData();
             //data.execute(urlString);
-
 
             getRecipe(String.valueOf(searchField.getText()));
         }

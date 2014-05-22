@@ -12,7 +12,8 @@
     <string name="search_hint">Recipe Search</string>
     <string name="course">Course</string>
     <string name="search_btn">Search</string>
-    <string name="cancel_btn">Cancel</string>
+    <string name="clear_btn">Clear</string>
+
 
     // Spinner Array
     <string-array name="courses_array">
