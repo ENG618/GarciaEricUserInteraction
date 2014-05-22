@@ -17,18 +17,18 @@
 
     // Spinner Array
     <string-array name="courses_array">
-        <item>Breakfast and Brunch</item>
-        <item>Breads</item>
-        <item>Lunch and Snacks</item>
-        <item>Deserts</item>
-        <item>Main Dishes</item>
-        <item>Beverages</item>
-        <item>Side Dishes</item>
         <item>Appetizers</item>
-        <item>Condiments and Sauces</item>
-        <item>Salads</item>
-        <item>Soups</item>
+        <item>Beverages</item>
+        <item>Breads</item>
+        <item>Breakfast and Brunch</item>
         <item>Cocktails</item>
+        <item>Condiments and Sauces</item>
+        <item>Deserts</item>
+        <item>Lunch and Snacks</item>
+        <item>Main Dishes</item>
+        <item>Salads</item>
+        <item>Side Dishes</item>
+        <item>Soups</item>
     </string-array>
 
 </resources>

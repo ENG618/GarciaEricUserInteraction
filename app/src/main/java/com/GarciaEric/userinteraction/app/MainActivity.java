@@ -37,7 +37,8 @@ public class MainActivity extends Activity {
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
-    public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
+    private String selectedCourse;
+    //public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
 
     // User input Fields
     private EditText searchField;
@@ -111,7 +112,10 @@ public class MainActivity extends Activity {
                 Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_SHORT).show();
 
                 // Temp log
-                Log.d(LOGTAG, "An item was selected from the spinner");
+                Log.d(LOGTAG, coursesArray[position] + " was selected from the spinner");
+
+                // Set course string
+                selectedCourse = coursesArray[position];
             }
 
             @Override
@@ -149,10 +153,17 @@ public class MainActivity extends Activity {
     }
 
     // Get recipes method
-    public void getRecipe(String searchTerm){
+    public String getRecipeURL(String searchTerm, String course) {
         // Log message
         Log.i(LOGTAG, "getRecipe entered");
-        Log.i(LOGTAG, "Searching for: " + searchTerm);
+        Log.i(LOGTAG, "Searching for: " + searchTerm + " Course: " + course);
+
+        // Construct recipe string
+        // Format: http://api.yummly.com/v1/api/recipes?_app_id=app-id&_app_key=app-key&your_search_parameters
+
+        String recipeURL = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=" + searchTerm + "&allowedCourse[]=course^course-" + course;
+
+        return recipeURL;
     }
 
     // Cancel button method
@@ -183,7 +194,11 @@ public class MainActivity extends Activity {
             getData data = new getData();
             //data.execute(urlString);
 
-            getRecipe(String.valueOf(searchField.getText()));
+            // Get recipe URL
+            String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
+            Log.i(LOGTAG, "URL is: " + recipeURL);
+
+            // Send to
         }
 
     }
