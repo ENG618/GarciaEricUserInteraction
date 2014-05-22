@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * Created by: Eric Garcia on 5/15/14
  * Full Sail University
@@ -31,6 +37,7 @@ public class MainActivity extends Activity {
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
+    public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
 
     // User input Fields
     private EditText searchField;
@@ -57,6 +64,8 @@ public class MainActivity extends Activity {
         // Check network connection
         if (checkNetworkStatus(mContext)){
             Toast.makeText(mContext, "You have a network connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mContext, "You do not have a network connection", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -165,17 +174,75 @@ public class MainActivity extends Activity {
         Log.d(LOGTAG, "Search button clicked");
 
         // Local variable
-        String search = searchField.getText().toString();
+        String search = String.valueOf(searchField.getText());
 
         // Check search term
-        if (search.matches("")) {
+        if (search.matches("") || search.trim().length() == 0) { // Check if search term is blank
             // Toast error message
-            Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_SHORT).show();
-            return;
-        }else {
-            getRecipe(searchField.getText().toString());
+            Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
+        } else { // Sent it to getResponse
+            // TODO: create urlString
+            getData data = new getData();
+            //data.execute(urlString);
+
+
+            getRecipe(String.valueOf(searchField.getText()));
         }
 
+    }
+
+    // Fetch URL
+    public static String getResponse(URL url) {
+        // Log message
+        Log.i(LOGTAG, "getResponse entered");
+
+        String response;
+        try {
+            response = null;
+            URLConnection conn = url.openConnection();
+            BufferedInputStream bin = new BufferedInputStream(conn.getInputStream());
+            byte[] contextByte = new byte[1024];
+            int byteRead = 0;
+            //StringBuffer was producing an error so I switched it to String Builder
+            StringBuilder responseBuilder = new StringBuilder();
+
+
+            while ((byteRead = bin.read(contextByte)) != -1) {
+                response = new String(contextByte, 0, byteRead);
+                responseBuilder.append(response);
+            }
+            response = responseBuilder.toString();
+            Log.i(LOGTAG, "URL Response: " + response);
+        } catch (IOException e) {
+            response = "Something isn't right.  We didn't receive a response";
+            Log.e(LOGTAG, "Something went wrong", e);
+        }
+
+        return response;
+    }
+
+    static class getData extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            // Declare local variable response string
+            String responseString;
+
+            try { // Try URL
+                URL url = new URL(_urlString);
+                responseString = getResponse(url);
+            } catch (Exception e) { // If error show response string and error
+                responseString = "Something isn't right";
+                Log.e(LOGTAG, "ERROR: ", e);
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            // TODO: Send JSON Response to handler
+            super.onPostExecute(s);
+        }
     }
 
     @Override
