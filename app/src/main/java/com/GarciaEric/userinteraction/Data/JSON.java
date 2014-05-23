@@ -78,8 +78,12 @@ public class JSON {
             }
             // Log message completed for loop
             Log.i(LOGTAG, "Completed for loop");
+            // App is not properly storing data and crashes when trying so I'm removing what makes it crash
+
             MainActivity main = new MainActivity();
-            main.convertArray(recipeStringArray);
+            //main.convertArray(recipeStringArray);
+            main.displayJSONReturn(recipeStringArray.toString());
+
 
         } catch (JSONException e) {
             Log.e(LOGTAG, "Error: ", e);

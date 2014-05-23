@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.GarciaEric.userinteraction.Data.JSON;
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
     // User input Fields
     private EditText searchField;
     private ListView resultsLV;
-
+    public TextView tv;
 
 
     @Override
@@ -61,24 +62,25 @@ public class MainActivity extends Activity {
         Log.d(LOGTAG, "onCreate entered");
 
         // Obtain fields
-        searchField = (EditText)findViewById(R.id.etSearch);
-        resultsLV = (ListView) findViewById(R.id.listView);
+        searchField = (EditText) findViewById(R.id.etSearch);
+        //resultsLV = (ListView) findViewById(R.id.listView);
+        tv = (TextView) findViewById(R.id.tempTextView);
 
         // Set up spinner & listView
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
 
-        aAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
-        aAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        //resultsLV.setAdapter(aAdapter);
-
-        resultsLV.setVisibility(View.GONE);
+//        aAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
+//        aAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+//        //resultsLV.setAdapter(aAdapter);
+//
+//        resultsLV.setVisibility(View.GONE);
 
     }
 
     // Check network status
-    public Boolean checkNetworkStatus(Context context){
+    public Boolean checkNetworkStatus(Context context) {
         // Log message
         Log.d(LOGTAG, "checkNetworkStatus entered");
 
@@ -176,18 +178,26 @@ public class MainActivity extends Activity {
     public void convertArray(ArrayList<String> list) {
         // Log message
         Log.i(LOGTAG, "convertArray entered");
-//        // Cast ArrayList to array
-//        String[] recipesArray = new String[list.size()];
-//        for(String s : recipesArray){
-//            recipesArray.
-//        }
-//        recipesArray = (String[]) list.toArray();
-//        setListView(recipesArray);
-        recipeList = list;
-        //setListView();
-        //aAdapter.notifyDataSetChanged();
-        resultsLV.setAdapter(aAdapter);
-        resultsLV.setVisibility(View.VISIBLE);
+////        // Cast ArrayList to array
+////        String[] recipesArray = new String[list.size()];
+////        for(String s : recipesArray){
+////            recipesArray.
+////        }
+////        recipesArray = (String[]) list.toArray();
+////        setListView(recipesArray);
+//        recipeList = list;
+//        //setListView();
+//        //aAdapter.notifyDataSetChanged();
+//        resultsLV.setAdapter(aAdapter);
+//        resultsLV.setVisibility(View.VISIBLE);
+    }
+
+    // Temporary method to show that data is coming in and being parsed
+    public void displayJSONReturn(String jsonString) {
+        Log.i(LOGTAG, "displayJSONReturn entered.  jsonSting is: " + jsonString);
+
+        //tv.setText(jsonString);
+        //Log.i(LOGTAG, "tv obtained");
     }
 
     // Get recipes method
@@ -207,7 +217,7 @@ public class MainActivity extends Activity {
     }
 
     // Cancel button method
-    public void onCancel(View v){
+    public void onCancel(View v) {
         // Log message
         Log.d(LOGTAG, "Cancel button clicked");
         // Clear search field
@@ -215,7 +225,7 @@ public class MainActivity extends Activity {
     }
 
     // Search button action
-    public void onSearch(View v){
+    public void onSearch(View v) {
         // Log message
         Log.d(LOGTAG, "Search button clicked");
 
@@ -313,7 +323,7 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, "Setting selected", Toast.LENGTH_SHORT).show();
                 return true;
