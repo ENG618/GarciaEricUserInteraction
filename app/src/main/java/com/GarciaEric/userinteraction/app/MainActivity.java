@@ -40,13 +40,15 @@ public class MainActivity extends Activity {
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
-    //private String[] recipesArray;
+    ArrayList<String> recipeList;
     private String selectedCourse;
+    public ArrayAdapter<String> aAdapter;
     public static String recipeURL;
     //public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
 
     // User input Fields
     private EditText searchField;
+    private ListView resultsLV;
 
 
 
@@ -60,12 +62,18 @@ public class MainActivity extends Activity {
 
         // Obtain fields
         searchField = (EditText)findViewById(R.id.etSearch);
+        resultsLV = (ListView) findViewById(R.id.listView);
 
         // Set up spinner & listView
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
-        //setListView();
+
+        aAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
+        aAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        //resultsLV.setAdapter(aAdapter);
+
+        resultsLV.setVisibility(View.GONE);
 
     }
 
@@ -130,17 +138,17 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void setListView(final String[] list) {
+    public void setListView() {
         // Log message
         Log.d(LOGTAG, "setListView entered");
 
         // Obtain ListView
-        ListView searchResults = (ListView) findViewById(R.id.searchResultsLV);
+        //ListView searchResults = (ListView) findViewById(R.id.listView);
 
         Log.d(LOGTAG, "Found lv");
 
         // List adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, recipeList);
 
         Log.d(LOGTAG, "Array adapter created");
 
@@ -148,15 +156,15 @@ public class MainActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
 
         // Set adapter to listView
-        searchResults.setAdapter(adapter);
+        resultsLV.setAdapter(adapter);
 
         Log.d(LOGTAG, "array adapter set");
 
-        searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        resultsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO finish on click method for listView
-                Toast.makeText(mContext, "You have selected: " + list[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "You have selected: " + recipeList.get(position), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -165,13 +173,21 @@ public class MainActivity extends Activity {
     }
 
     // Convert ArrayList to array, and set list view
-    public void convertArray(ArrayList list) {
+    public void convertArray(ArrayList<String> list) {
         // Log message
         Log.i(LOGTAG, "convertArray entered");
-        // Cast ArrayList to array
-        String[] recipesArray = new String[list.size()];
-        recipesArray = (String[]) list.toArray();
-        setListView(recipesArray);
+//        // Cast ArrayList to array
+//        String[] recipesArray = new String[list.size()];
+//        for(String s : recipesArray){
+//            recipesArray.
+//        }
+//        recipesArray = (String[]) list.toArray();
+//        setListView(recipesArray);
+        recipeList = list;
+        //setListView();
+        //aAdapter.notifyDataSetChanged();
+        resultsLV.setAdapter(aAdapter);
+        resultsLV.setVisibility(View.VISIBLE);
     }
 
     // Get recipes method
