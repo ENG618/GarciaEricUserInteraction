@@ -18,7 +18,7 @@ public class RecipeData {
     }
 
     // Add new recipe
-    private void addItem(Recipe item) {
+    public void addItem(Recipe item) {
         Recipes.add(item);
     }
 }

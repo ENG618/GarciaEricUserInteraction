@@ -18,13 +18,12 @@ public class Recipe {
     public String recipeURL;
 
     // Construct recipe object
-    public Recipe (String recipeName, String recipeID, String sourceDisplayName, ArrayList<String> ingredients, int totalTimeInSeconds, String recipeURL) {
+    public Recipe(String recipeName, String recipeID, String sourceDisplayName, ArrayList<String> ingredients, int totalTimeInSeconds) {
         this.recipeName = recipeName;
         this.recipeID = recipeID;
         this.sourceDisplayName = sourceDisplayName;
         this.ingredients = ingredients;
         this.totalTimeInSeconds = totalTimeInSeconds;
-        this.recipeURL = recipeURL;
     }
 
     @Override
