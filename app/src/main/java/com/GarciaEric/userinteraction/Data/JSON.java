@@ -7,15 +7,26 @@ package com.GarciaEric.userinteraction.Data;
 
 import android.util.Log;
 
+import com.GarciaEric.userinteraction.app.MainActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Created by: Eric Garcia on 5/15/14
+ * Full Sail University | MDVBS
+ */
+
 public class JSON {
 
     private static final String LOGTAG = "JSON";
+
+    // Create List of recipes
+    public static ArrayList<Recipe> recipesFromJSON = new ArrayList<Recipe>();
+    public static ArrayList<String> recipeStringArray = new ArrayList<String>();
 
     public static void constructJSON(String JSONString) {
         // Log message
@@ -62,9 +73,14 @@ public class JSON {
                 // Add to RecipeDate
                 // TODO: add to recipe list
                 Log.i(LOGTAG, tempRecipe.toString());
+                recipesFromJSON.add(tempRecipe);
+                recipeStringArray.add(tempRecipe.toString());
             }
             // Log message completed for loop
             Log.i(LOGTAG, "Completed for loop");
+            MainActivity main = new MainActivity();
+            main.convertArray(recipeStringArray);
+
         } catch (JSONException e) {
             Log.e(LOGTAG, "Error: ", e);
             e.printStackTrace();

@@ -28,6 +28,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 /**
  * Created by: Eric Garcia on 5/15/14
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
+    //private String[] recipesArray;
     private String selectedCourse;
     public static String recipeURL;
     //public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
@@ -128,15 +130,19 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void setListView() {
+    public void setListView(final String[] list) {
         // Log message
         Log.d(LOGTAG, "setListView entered");
 
         // Obtain ListView
         ListView searchResults = (ListView) findViewById(R.id.searchResultsLV);
 
+        Log.d(LOGTAG, "Found lv");
+
         // List adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, coursesArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list);
+
+        Log.d(LOGTAG, "Array adapter created");
 
         // Specify layout
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
@@ -144,15 +150,28 @@ public class MainActivity extends Activity {
         // Set adapter to listView
         searchResults.setAdapter(adapter);
 
+        Log.d(LOGTAG, "array adapter set");
+
         searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO finish on click method for listView
-                Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "You have selected: " + list[position], Toast.LENGTH_SHORT).show();
 
             }
         });
 
+
+    }
+
+    // Convert ArrayList to array, and set list view
+    public void convertArray(ArrayList list) {
+        // Log message
+        Log.i(LOGTAG, "convertArray entered");
+        // Cast ArrayList to array
+        String[] recipesArray = new String[list.size()];
+        recipesArray = (String[]) list.toArray();
+        setListView(recipesArray);
     }
 
     // Get recipes method
