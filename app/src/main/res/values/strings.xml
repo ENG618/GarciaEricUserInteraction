@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // App stings
-    <string name="app_name">User Interaction</string>
+    <string name="app_name">Recipe Box</string>
     <string name="action_settings">Settings</string>
     <string name="action_option1">Option 1</string>
     <string name="action_option2">Option 2</string>
     <string name="action_option3">Option 3</string>
 
     // Layout
-    <string name="header">Recipe</string>
-    <string name="search_hint">Recipe Search</string>
+    <string name="header">Recipe Search</string>
+    <string name="search_hint">Enter search term</string>
     <string name="course">Course</string>
     <string name="search_btn">Search</string>
     <string name="clear_btn">Clear</string>

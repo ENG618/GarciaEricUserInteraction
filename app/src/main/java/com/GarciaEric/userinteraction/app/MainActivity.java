@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.GarciaEric.userinteraction.Data.JSON;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +63,7 @@ public class MainActivity extends Activity {
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
-        setListView();
+        //setListView();
 
     }
 
@@ -83,10 +85,10 @@ public class MainActivity extends Activity {
                 Log.d(LOGTAG, "Connection type: " + ni.getTypeName());
                 Toast.makeText(mContext, "Connected to: " + ni.getTypeName(), Toast.LENGTH_SHORT).show();
                 conn = true;
-            } else {
-                Toast.makeText(mContext, "Please connect to internet to search", Toast.LENGTH_SHORT).show();
+                return conn;
             }
         }
+        Toast.makeText(mContext, "Please connect to internet to search", Toast.LENGTH_SHORT).show();
         return conn;
     }
 
@@ -126,7 +128,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void setListView() {
+    public void setListView() {
         // Log message
         Log.d(LOGTAG, "setListView entered");
 
@@ -145,7 +147,7 @@ public class MainActivity extends Activity {
         searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO finish on click method
+                // TODO finish on click method for listView
                 Toast.makeText(mContext, "You have selected: " + coursesArray[position], Toast.LENGTH_SHORT).show();
 
             }
@@ -160,7 +162,7 @@ public class MainActivity extends Activity {
         Log.i(LOGTAG, "Searching for: " + searchTerm + " Course: " + course);
 
         // Format searchTerm for URL
-        String newSearchTerm = searchTerm.replace(" ", "+");
+        String newSearchTerm = searchTerm.trim().replace(" ", "+");
 
         // Construct recipe string
         // Format: http://api.yummly.com/v1/api/recipes?_app_id=app-id&_app_key=app-key&your_search_parameters
@@ -253,7 +255,12 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(String s) {
-            // TODO: Send JSON Response to handler
+            Log.i(LOGTAG, "onPostExecute entered");
+            Log.i(LOGTAG, "Post Execute String: " + s);
+
+            JSON.constructJSON(s);
+
+
             super.onPostExecute(s);
         }
     }

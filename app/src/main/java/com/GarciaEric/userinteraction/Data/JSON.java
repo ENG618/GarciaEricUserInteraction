@@ -5,48 +5,40 @@
 
 package com.GarciaEric.userinteraction.Data;
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSON {
 
-    public static JSONObject constructJSON(){
+    private static final String LOGTAG = "JSON";
 
-
-
-        // Create recipe JSONObject
-        JSONObject recipeObject = new JSONObject();
+    public static void constructJSON(String JSONString) {
+        // Log message
+        Log.i(LOGTAG, "constructJSON entered");
 
         try {
+            // Create JSON
+            JSONArray data = new JSONArray(JSONString);
 
-            // Create query JSONObject
-            JSONObject queryObject = new JSONObject();
+            //JSONObject matches = data.getJSONObject("matches");
 
-//            // Create recipe object in query
-//            for (Recipes recipes : Recipes.values()) {
-//
-//                // Create individual recipe object
-//                JSONObject recipeObj = new JSONObject();
-//
-//
-//                recipeObj.put("title", recipes.setTitle);
-//                recipeObj.put("serving", recipes.setServingSize);
-//                recipeObj.put("cookTime", recipes.setCookTime);
-//                recipeObj.put("description", recipes.setDescription);
-//
-//                queryObject.put(recipes.name().toString(), recipeObj);
-//
-//            }
+            Log.i(LOGTAG, "Before for loop");
+            // Loop through json for desired info
+            for (int i = 0; i < data.length(); i++) {
+                Log.i(LOGTAG, "In for loop");
+                JSONObject matches = data.getJSONObject(i).getJSONObject("matches");
+
+                Log.i(LOGTAG, "matches: " + matches.toString());
 
 
-            recipeObject.put("query", queryObject);
-
-
-        }catch (JSONException e) {
+            }
+        } catch (JSONException e) {
+            Log.e(LOGTAG, "Error: ", e);
             e.printStackTrace();
+
         }
-
-
-        return recipeObject;
     }
 }
