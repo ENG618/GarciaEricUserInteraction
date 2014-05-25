@@ -34,7 +34,7 @@
             android:id="@+id/btnCancel"
             android:text="@string/clear_btn"
             android:layout_marginRight="10dp"
-            android:onClick="onCancel"
+            android:onClick="onClear"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" />
 
@@ -71,5 +71,11 @@
         android:id="@+id/tempTextView"
         android:layout_gravity="center_horizontal"
         android:padding="10dp" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

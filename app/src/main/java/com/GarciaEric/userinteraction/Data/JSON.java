@@ -27,11 +27,13 @@ public class JSON {
     // Create List of recipes
     public static ArrayList<Recipe> recipesFromJSON = new ArrayList<Recipe>();
     public static ArrayList<String> recipeStringArray = new ArrayList<String>();
+    private static RecipeData rd;
 
     public static void constructJSON(String JSONString) {
         // Log message
         Log.i(LOGTAG, "constructJSON entered");
         Log.i(LOGTAG, "String: " + JSONString);
+        rd = new RecipeData();
 
         try {
             // Create JSON
@@ -70,6 +72,9 @@ public class JSON {
 
                 // Create custom recipe item
                 Recipe tempRecipe = new Recipe(recipeName, recipeID, sourceDisplayName, ingredients, totalTimeInSeconds);
+
+                rd.addItem(tempRecipe);
+
                 // Add to RecipeDate
                 // TODO: add to recipe list
                 Log.i(LOGTAG, tempRecipe.toString());

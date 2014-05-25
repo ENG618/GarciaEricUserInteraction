@@ -10,7 +10,7 @@ import java.util.List;
 public class RecipeData {
 
     // Create List of recipes
-    private List<Recipe> Recipes = new ArrayList<Recipe>();
+    private ArrayList<Recipe> Recipes = new ArrayList<Recipe>();
 
     // Returns list of recipes
     public List<Recipe> getRecepes() {

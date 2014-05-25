@@ -23,7 +23,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.GarciaEric.userinteraction.Data.JSON;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -43,9 +45,7 @@ public class MainActivity extends Activity {
     private String[] coursesArray;
     ArrayList<String> recipeList;
     private String selectedCourse;
-    public ArrayAdapter<String> aAdapter;
     public static String recipeURL;
-    //public static String _urlString = "http://api.yummly.com/v1/api/recipes?_app_id=6191b024&_app_key=6efe529146a8e210cec188d55f877c9f&q=onion+soup&requirePictures=true";
 
     // User input Fields
     private EditText searchField;
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 
         // Obtain fields
         searchField = (EditText) findViewById(R.id.etSearch);
-        //resultsLV = (ListView) findViewById(R.id.listView);
+        resultsLV = (ListView) findViewById(R.id.listView);
         tv = (TextView) findViewById(R.id.tempTextView);
 
         // Set up spinner & listView
@@ -140,7 +140,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void setListView() {
+    public void setListView(ArrayList<String> r) {
         // Log message
         Log.d(LOGTAG, "setListView entered");
 
@@ -150,7 +150,7 @@ public class MainActivity extends Activity {
         Log.d(LOGTAG, "Found lv");
 
         // List adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, recipeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, r /*recipeList*/);
 
         Log.d(LOGTAG, "Array adapter created");
 
@@ -162,42 +162,26 @@ public class MainActivity extends Activity {
 
         Log.d(LOGTAG, "array adapter set");
 
-        resultsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*resultsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO finish on click method for listView
-                Toast.makeText(mContext, "You have selected: " + recipeList.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "You have selected: " + r.get(position) *//*recipeList.get(position)*//*, Toast.LENGTH_SHORT).show();
 
             }
-        });
+        });*/
 
 
-    }
-
-    // Convert ArrayList to array, and set list view
-    public void convertArray(ArrayList<String> list) {
-        // Log message
-        Log.i(LOGTAG, "convertArray entered");
-////        // Cast ArrayList to array
-////        String[] recipesArray = new String[list.size()];
-////        for(String s : recipesArray){
-////            recipesArray.
-////        }
-////        recipesArray = (String[]) list.toArray();
-////        setListView(recipesArray);
-//        recipeList = list;
-//        //setListView();
-//        //aAdapter.notifyDataSetChanged();
-//        resultsLV.setAdapter(aAdapter);
-//        resultsLV.setVisibility(View.VISIBLE);
     }
 
     // Temporary method to show that data is coming in and being parsed
     public void displayJSONReturn(String jsonString) {
         Log.i(LOGTAG, "displayJSONReturn entered.  jsonSting is: " + jsonString);
 
-        //tv.setText(jsonString);
-        //Log.i(LOGTAG, "tv obtained");
+        //RecipeData rd = new RecipeData();
+        //setListView((ArrayList<Recipe>) rd.getRecepes());
+        //setListView(jsonString);
+
     }
 
     // Get recipes method
@@ -217,7 +201,7 @@ public class MainActivity extends Activity {
     }
 
     // Cancel button method
-    public void onCancel(View v) {
+    public void onClear(View v) {
         // Log message
         Log.d(LOGTAG, "Cancel button clicked");
         // Clear search field
@@ -303,13 +287,43 @@ public class MainActivity extends Activity {
             Log.i(LOGTAG, "onPostExecute entered");
             Log.i(LOGTAG, "Post Execute String: " + s);
 
-            JSON.constructJSON(s);
+            MainActivity main = new MainActivity();
+            main.testJSONParsing(s);
+            //JSON.constructJSON(s);
 
 
             super.onPostExecute(s);
         }
     }
 
+    public void testJSONParsing(String jsonString) {
+
+        ArrayList<String> JSONArray = new ArrayList<String>();
+
+        try {
+            // Create JSON
+            JSONObject data = new JSONObject(jsonString);
+
+            // Create Array of recipes
+            JSONArray matches = new JSONArray(data.getJSONArray("matches").toString());
+
+            // Loop through JSONArray for desired info
+            for (int i = 0; i < matches.length(); i++) {
+                Log.i(LOGTAG, "In for loop at index: " + i + " Object: " + matches.getJSONObject(i));
+
+                // Obtain Fields
+                String recipeName = matches.getJSONObject(i).getString("recipeName");
+
+                // Add to RecipeDate
+                JSONArray.add(recipeName);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        setListView(JSONArray);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
