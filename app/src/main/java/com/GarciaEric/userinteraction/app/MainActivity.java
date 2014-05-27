@@ -43,7 +43,6 @@ public class MainActivity extends Activity {
     private static final String LOGTAG = "MainActivity";
     private Context mContext;
     private String[] coursesArray;
-    ArrayList<String> recipeList;
     private String selectedCourse;
     public static String recipeURL;
 
@@ -149,6 +148,7 @@ public class MainActivity extends Activity {
 
         Log.d(LOGTAG, "Found lv");
 
+        Log.i(LOGTAG, "r value: " + r);
         // List adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, r /*recipeList*/);
 
@@ -297,8 +297,10 @@ public class MainActivity extends Activity {
     }
 
     public void testJSONParsing(String jsonString) {
+        // Log message
+        Log.i(LOGTAG, "testJSONParsing");
 
-        ArrayList<String> JSONArray = new ArrayList<String>();
+        ArrayList<String> recipesJSON = new ArrayList<String>();
 
         try {
             // Create JSON
@@ -307,7 +309,7 @@ public class MainActivity extends Activity {
             // Create Array of recipes
             JSONArray matches = new JSONArray(data.getJSONArray("matches").toString());
 
-            // Loop through JSONArray for desired info
+            // Loop through recipesJSON for desired info
             for (int i = 0; i < matches.length(); i++) {
                 Log.i(LOGTAG, "In for loop at index: " + i + " Object: " + matches.getJSONObject(i));
 
@@ -315,14 +317,15 @@ public class MainActivity extends Activity {
                 String recipeName = matches.getJSONObject(i).getString("recipeName");
 
                 // Add to RecipeDate
-                JSONArray.add(recipeName);
+                recipesJSON.add(recipeName);
             }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        setListView(JSONArray);
+        Log.i(LOGTAG, "JSON array: " + recipesJSON);
+        setListView(recipesJSON);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
