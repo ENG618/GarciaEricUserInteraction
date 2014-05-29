@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -49,8 +48,6 @@ public class MainActivity extends Activity {
     // User input Fields
     private EditText searchField;
     private ListView resultsLV;
-    public TextView tv;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +60,14 @@ public class MainActivity extends Activity {
         // Obtain fields
         searchField = (EditText) findViewById(R.id.etSearch);
         resultsLV = (ListView) findViewById(R.id.listView);
-        tv = (TextView) findViewById(R.id.tempTextView);
 
         // Set up spinner & listView
         mContext = this;
         coursesArray = getResources().getStringArray(R.array.courses_array);
         setSpinner();
 
-//        aAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
-//        aAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-//        //resultsLV.setAdapter(aAdapter);
-//
-//        resultsLV.setVisibility(View.GONE);
+        // Hide listView
+        resultsLV.setVisibility(View.GONE);
 
     }
 
@@ -162,6 +155,8 @@ public class MainActivity extends Activity {
 
         Log.d(LOGTAG, "array adapter set");
 
+        resultsLV.setVisibility(View.VISIBLE);
+
         /*resultsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -220,14 +215,14 @@ public class MainActivity extends Activity {
         if (search.matches("") || search.trim().length() == 0) { // Check if search term is blank
             // Toast error message
             Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
-        } else { // Sent it to getResponse
+        } else { // Send it to getResponse
             // Check network status
             if (checkNetworkStatus(MainActivity.this)) {
                 // Get recipe URL
                 String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
                 Log.i(LOGTAG, "URL is: " + recipeURL);
 
-                //
+
                 getData data = new getData();
                 data.execute(recipeURL);
             }
@@ -265,7 +260,7 @@ public class MainActivity extends Activity {
         return response;
     }
 
-    static class getData extends AsyncTask<String, Void, String> {
+    class getData extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -287,9 +282,13 @@ public class MainActivity extends Activity {
             Log.i(LOGTAG, "onPostExecute entered");
             Log.i(LOGTAG, "Post Execute String: " + s);
 
-            MainActivity main = new MainActivity();
-            main.testJSONParsing(s);
+            //MainActivity main = new MainActivity();
+            //main.testJSONParsing(s);
             //JSON.constructJSON(s);
+
+            testJSONParsing(s);
+            //ParseJSON parser = new ParseJSON();
+            //setListView(parser.getRecipesJSON(s));
 
 
             super.onPostExecute(s);

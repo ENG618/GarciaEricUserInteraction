@@ -50,6 +50,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,13 +65,6 @@
         android:id="@+id/btnSearch"
         android:layout_gravity="center_horizontal"
         android:onClick="onSearch" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tempTextView"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp" />
 
     <ListView
         android:layout_width="match_parent"
