@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
     private Context mContext;
     private String[] coursesArray;
     private String selectedCourse;
-    public static String recipeURL;
+    private static String recipeURL;
 
     // User input Fields
     private EditText searchField;
@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
         // Set background transparency
         View layout = findViewById(R.id.layout);
         Drawable background = layout.getBackground();
+        //noinspection ConstantConditions
         background.setAlpha(120);
 
         // Set up spinner & listView
@@ -108,7 +109,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void setListView(ArrayList<String> r) {
+    void setListView(ArrayList<String> r) {
         // Log message
         Log.d(LOGTAG, "setListView entered");
 
@@ -118,6 +119,11 @@ public class MainActivity extends Activity {
         Log.d(LOGTAG, "Found lv");
 
         Log.i(LOGTAG, "r value: " + r);
+
+        if (r.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please try another search, nothing was found", Toast.LENGTH_LONG);
+        }
+
         // List adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, r /*recipeList*/);
 
@@ -145,18 +151,8 @@ public class MainActivity extends Activity {
 
     }
 
-    // Temporary method to show that data is coming in and being parsed
-    public void displayJSONReturn(String jsonString) {
-        Log.i(LOGTAG, "displayJSONReturn entered.  jsonSting is: " + jsonString);
-
-        //RecipeData rd = new RecipeData();
-        //setListView((ArrayList<Recipe>) rd.getRecepes());
-        //setListView(jsonString);
-
-    }
-
     // Get recipes method
-    public String getRecipeURL(String searchTerm, String course) {
+    String getRecipeURL(String searchTerm, String course) {
         // Log message
         Log.i(LOGTAG, "getRecipe entered");
         Log.i(LOGTAG, "Searching for: " + searchTerm + " Course: " + course);
@@ -186,6 +182,7 @@ public class MainActivity extends Activity {
 
         // Hide keyboard
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //noinspection ConstantConditions
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         // Create instance of NetworkCheck.jar
@@ -216,16 +213,18 @@ public class MainActivity extends Activity {
     }
 
     // Fetch URL
-    public static String getResponse(URL url) {
+    private static String getResponse(URL url) {
         // Log message
         Log.i(LOGTAG, "getResponse entered");
 
         String response;
         try {
+            //noinspection UnusedAssignment
             response = null;
             URLConnection conn = url.openConnection();
             BufferedInputStream bin = new BufferedInputStream(conn.getInputStream());
             byte[] contextByte = new byte[1024];
+            //noinspection UnusedAssignment
             int byteRead = 0;
             //StringBuffer was producing an error so I switched it to String Builder
             StringBuilder responseBuilder = new StringBuilder();
@@ -245,7 +244,7 @@ public class MainActivity extends Activity {
         return response;
     }
 
-    class getData extends AsyncTask<String, Void, String> {
+    private class getData extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {

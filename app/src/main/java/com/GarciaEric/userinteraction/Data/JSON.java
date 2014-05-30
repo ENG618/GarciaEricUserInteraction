@@ -87,7 +87,7 @@ public class JSON {
 
             MainActivity main = new MainActivity();
             //main.convertArray(recipeStringArray);
-            main.displayJSONReturn(recipeStringArray.toString());
+            //main.displayJSONReturn(recipeStringArray.toString());
 
 
         } catch (JSONException e) {
