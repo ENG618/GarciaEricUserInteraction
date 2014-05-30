@@ -7,8 +7,6 @@ package com.GarciaEric.userinteraction.app;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +19,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -69,31 +63,6 @@ public class MainActivity extends Activity {
         // Hide listView
         resultsLV.setVisibility(View.GONE);
 
-    }
-
-    // Check network status
-    public Boolean checkNetworkStatus(Context context) {
-        // Log message
-        Log.d(LOGTAG, "checkNetworkStatus entered");
-
-        // Declare connection as false until checked
-        Boolean conn = false;
-
-        // Create connectivity manager
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        // Obtain status
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        // Check validity
-        if (ni != null) {
-            if (ni.isConnected()) {
-                Log.d(LOGTAG, "Connection type: " + ni.getTypeName());
-                Toast.makeText(mContext, "Connected to: " + ni.getTypeName(), Toast.LENGTH_SHORT).show();
-                conn = true;
-                return conn;
-            }
-        }
-        Toast.makeText(mContext, "Please connect to internet to search", Toast.LENGTH_SHORT).show();
-        return conn;
     }
 
     private void setSpinner() {
@@ -208,8 +177,9 @@ public class MainActivity extends Activity {
         // Log message
         Log.d(LOGTAG, "Search button clicked");
 
+        // Create instance of NetworkCheck.jar
         com.GarciaEric.networkcheck.NetworkCheck check = new com.GarciaEric.networkcheck.NetworkCheck();
-        //NetworkCheck check = new NetworkCheck();
+
         resultsLV.setVisibility(View.GONE);
 
         // Local variable
@@ -220,7 +190,7 @@ public class MainActivity extends Activity {
             // Toast error message
             Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
         } else { // Send it to getResponse
-            // Check network status
+            // Check network status using NetworkCheck.jar
             if (check.check(MainActivity.this)) {
                 // Get recipe URL
                 String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
@@ -286,50 +256,16 @@ public class MainActivity extends Activity {
             Log.i(LOGTAG, "onPostExecute entered");
             Log.i(LOGTAG, "Post Execute String: " + s);
 
-            //MainActivity main = new MainActivity();
-            //main.testJSONParsing(s);
-            //JSON.constructJSON(s);
+            // Create instance of ParseJSON.jar
+            com.GarciaEric.networkcheck.ParseJSON parseJSON = new com.GarciaEric.networkcheck.ParseJSON();
 
-            testJSONParsing(s);
-            //ParseJSON parser = new ParseJSON();
-            //setListView(parser.getRecipesJSON(s));
-
+            // Set listView with return from ParseJSON.jar
+            setListView(parseJSON.getRecipesJSON(s));
 
             super.onPostExecute(s);
         }
     }
 
-    public void testJSONParsing(String jsonString) {
-        // Log message
-        Log.i(LOGTAG, "testJSONParsing");
-
-        ArrayList<String> recipesJSON = new ArrayList<String>();
-
-        try {
-            // Create JSON
-            JSONObject data = new JSONObject(jsonString);
-
-            // Create Array of recipes
-            JSONArray matches = new JSONArray(data.getJSONArray("matches").toString());
-
-            // Loop through recipesJSON for desired info
-            for (int i = 0; i < matches.length(); i++) {
-                Log.i(LOGTAG, "In for loop at index: " + i + " Object: " + matches.getJSONObject(i));
-
-                // Obtain Fields
-                String recipeName = matches.getJSONObject(i).getString("recipeName");
-
-                // Add to RecipeDate
-                recipesJSON.add(recipeName);
-            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.i(LOGTAG, "JSON array: " + recipesJSON);
-        setListView(recipesJSON);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
