@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.GarciaEric.userinteraction.utils.NetworkCheck;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -208,6 +210,9 @@ public class MainActivity extends Activity {
         // Log message
         Log.d(LOGTAG, "Search button clicked");
 
+        NetworkCheck check = new NetworkCheck();
+        resultsLV.setVisibility(View.GONE);
+
         // Local variable
         String search = String.valueOf(searchField.getText());
 
@@ -217,7 +222,7 @@ public class MainActivity extends Activity {
             Toast.makeText(mContext, "Please enter a search term", Toast.LENGTH_LONG).show();
         } else { // Send it to getResponse
             // Check network status
-            if (checkNetworkStatus(MainActivity.this)) {
+            if (check.check(MainActivity.this)) {
                 // Get recipe URL
                 String recipeURL = getRecipeURL(String.valueOf(searchField.getText()), selectedCourse);
                 Log.i(LOGTAG, "URL is: " + recipeURL);
