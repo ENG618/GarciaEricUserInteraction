@@ -22,8 +22,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.GarciaEric.userinteraction.utils.NetworkCheck;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -210,7 +208,8 @@ public class MainActivity extends Activity {
         // Log message
         Log.d(LOGTAG, "Search button clicked");
 
-        NetworkCheck check = new NetworkCheck();
+        com.GarciaEric.networkcheck.NetworkCheck check = new com.GarciaEric.networkcheck.NetworkCheck();
+        //NetworkCheck check = new NetworkCheck();
         resultsLV.setVisibility(View.GONE);
 
         // Local variable
