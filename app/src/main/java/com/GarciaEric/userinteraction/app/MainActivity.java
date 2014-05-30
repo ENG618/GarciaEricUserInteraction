@@ -7,12 +7,14 @@ package com.GarciaEric.userinteraction.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -54,6 +56,11 @@ public class MainActivity extends Activity {
         // Obtain fields
         searchField = (EditText) findViewById(R.id.etSearch);
         resultsLV = (ListView) findViewById(R.id.listView);
+
+        // Set background transparency
+        View layout = findViewById(R.id.layout);
+        Drawable background = layout.getBackground();
+        background.setAlpha(120);
 
         // Set up spinner & listView
         mContext = this;
@@ -176,6 +183,10 @@ public class MainActivity extends Activity {
     public void onSearch(View v) {
         // Log message
         Log.d(LOGTAG, "Search button clicked");
+
+        // Hide keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         // Create instance of NetworkCheck.jar
         com.GarciaEric.networkcheck.NetworkCheck check = new com.GarciaEric.networkcheck.NetworkCheck();
